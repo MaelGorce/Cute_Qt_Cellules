@@ -23,6 +23,7 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton("",parent),
 {
     for(int iI=0; iI < C_NB_VOISINS;iI++)
     {
+
         m_pCVoisinage[iI]=nullptr;
     }
     this->setGeometry( C_LAR_CEL * m_iX,
@@ -30,7 +31,15 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton("",parent),
                        C_LAR_CEL,
                        C_HAU_CEL);
     this->setCursor(Qt::PointingHandCursor);
-    //QObject::connect(this, SIGNAL(clicked()), this, SLOT(fnClicked()));
+
+    this->setBackgroundRole(QPalette::Button);
+    this->setForegroundRole(QPalette::NoRole);
+    this->setAutoFillBackground(true);
+    this->setFlat(true);
+
+    ActualizeColor();
+
+    CCellule::connect(this, SIGNAL(clicked()), this, SLOT(fnClicked()));
 }
 
 CCellule::~CCellule()
@@ -38,7 +47,14 @@ CCellule::~CCellule()
 
 }
 
+void CCellule::ActualizeColor()
+{
+    m_qPalette.setColor(QPalette::Button,QColor(255-2*m_ucStrength,255,255-2*m_ucStrength));
+    this->setPalette(m_qPalette);
+}
+
 void CCellule::fnClicked()
 {
     m_ucStrength=100;
+    ActualizeColor();
 }

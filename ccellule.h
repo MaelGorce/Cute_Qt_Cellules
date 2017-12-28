@@ -21,17 +21,19 @@ public:
     int fnCompute();
     int fnActualize();
 
-
 public slots:
     void fnClicked();
 
 private:
+    void ActualizeColor();
+
     unsigned char m_ucStrength;
     unsigned char m_ucNextStrength;
     bool m_bIsEdge;
     int m_iX;
     int m_iY;
     CCellule* m_pCVoisinage[C_NB_VOISINS];
+    QPalette m_qPalette;
 };
 
 #endif // CCELLULE_H
