@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent)//,
+    //ui(new Ui::MainWindow)
 {
     setFixedSize(C_LAR_WD, C_HAU_WD);
 
@@ -14,12 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
             m_pCCelluleMap[iI][iJ]=new CCellule(iI,iJ,this);
         }
     }
-
-
-    ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    //delete ui;
 }

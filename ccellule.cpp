@@ -14,7 +14,7 @@ CCellule::CCellule() : QPushButton(),
     }
 }
 
-CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton("",parent),
+CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton(parent),
     m_ucStrength(0),
     m_ucNextStrength(0),
     m_bIsEdge(false),
@@ -30,8 +30,8 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton("",parent),
                        C_HAU_CEL * m_iY,
                        C_LAR_CEL,
                        C_HAU_CEL);
-    this->setCursor(Qt::PointingHandCursor);
 
+    // Propriété du bouton
     this->setBackgroundRole(QPalette::Button);
     this->setForegroundRole(QPalette::NoRole);
     this->setAutoFillBackground(true);
@@ -39,7 +39,8 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton("",parent),
 
     ActualizeColor();
 
-    CCellule::connect(this, SIGNAL(clicked()), this, SLOT(fnClicked()));
+    this->setCursor(Qt::PointingHandCursor);
+    QObject::connect(this, SIGNAL(clicked()), this, SLOT(fnClicked()));
 }
 
 CCellule::~CCellule()
@@ -51,6 +52,11 @@ void CCellule::ActualizeColor()
 {
     m_qPalette.setColor(QPalette::Button,QColor(255-2*m_ucStrength,255,255-2*m_ucStrength));
     this->setPalette(m_qPalette);
+}
+
+void CCellule::fnActualize()
+{
+    ActualizeColor();
 }
 
 void CCellule::fnClicked()

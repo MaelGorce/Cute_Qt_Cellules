@@ -21,7 +21,6 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
     CCellule* m_pCCelluleMap[(C_LAR_WD/C_LAR_CEL)][(C_HAU_WD/C_HAU_CEL)];
 };
 

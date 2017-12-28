@@ -12,6 +12,8 @@
 
 class CCellule : public QPushButton
 {
+    Q_OBJECT
+
 public:
     CCellule();
     CCellule(int x, int y, QMainWindow* parent);
@@ -19,7 +21,7 @@ public:
 
     void fnSetVoisinage(CCellule**);
     int fnCompute();
-    int fnActualize();
+    void fnActualize();
 
 public slots:
     void fnClicked();

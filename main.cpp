@@ -3,9 +3,9 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    QApplication QApp(argc, argv);
+    MainWindow CMainWindow;
+    CMainWindow.show();
 
-    return a.exec();
+    return QApp.exec();
 }
