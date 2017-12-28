@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ccellule.h"
+
+#define C_LAR_WD 300
+#define C_HAU_WD 300
+
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +22,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    CCellule* m_pCCelluleMap[(C_LAR_WD/C_LAR_CEL)][(C_HAU_WD/C_HAU_CEL)];
 };
 
 #endif // MAINWINDOW_H

@@ -2,11 +2,36 @@
 #define CCELLULE_H
 
 #include <QObject>
+#include <QPushButton>
+#include <QMainWindow>
 
-class CCellule
+#define C_NB_VOISINS 8
+
+#define C_LAR_CEL 10
+#define C_HAU_CEL 10
+
+class CCellule : public QPushButton
 {
 public:
     CCellule();
+    CCellule(int x, int y, QMainWindow* parent);
+    ~CCellule();
+
+    void fnSetVoisinage(CCellule**);
+    int fnCompute();
+    int fnActualize();
+
+
+public slots:
+    void fnClicked();
+
+private:
+    unsigned char m_ucStrength;
+    unsigned char m_ucNextStrength;
+    bool m_bIsEdge;
+    int m_iX;
+    int m_iY;
+    CCellule* m_pCVoisinage[C_NB_VOISINS];
 };
 
 #endif // CCELLULE_H
