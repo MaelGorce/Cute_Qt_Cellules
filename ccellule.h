@@ -20,8 +20,9 @@ public:
     ~CCellule();
 
     void fnSetVoisinage(CCellule**);
-    int fnCompute();
+    void fnCompute();
     void fnActualize();
+    unsigned char fnGetStrength();
 
 public slots:
     void fnClicked();

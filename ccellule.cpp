@@ -56,7 +56,71 @@ void CCellule::ActualizeColor()
 
 void CCellule::fnActualize()
 {
+    m_ucStrength = m_ucNextStrength;
     ActualizeColor();
+}
+
+void CCellule::fnSetVoisinage(CCellule** pCVoisinage)
+{
+    for(int iI=0; iI < C_NB_VOISINS;iI++)
+    {
+        m_pCVoisinage[iI]=pCVoisinage[iI];
+    }
+}
+
+void CCellule::fnCompute()
+{
+    unsigned int AroundStrength=0;
+    for(int iI=0; iI < C_NB_VOISINS;iI++)
+    {
+        if (m_pCVoisinage[iI] != nullptr)
+        {
+            AroundStrength+=m_pCVoisinage[iI]->fnGetStrength();
+        }
+
+    }
+
+    if (AroundStrength/C_NB_VOISINS < 15)
+    {
+        // Sous-population envirronnante
+        if (m_ucStrength < 30)
+        {
+            m_ucNextStrength = 0;
+        }
+        else
+        {
+            m_ucNextStrength = m_ucStrength - 20;
+        }
+    }
+    else if (AroundStrength/C_NB_VOISINS > 60)
+    {
+        // Sur-population envirronnante
+        if (m_ucStrength < 40)
+        {
+            m_ucNextStrength = 0;
+        }
+        else
+        {
+            m_ucNextStrength = m_ucStrength - 30;
+        }
+    }
+    else
+    {
+        // Croissance
+        if (m_ucStrength > 70)
+        {
+            m_ucNextStrength = 100;
+        }
+        else
+        {
+            m_ucNextStrength = m_ucStrength + 30;
+        }
+    }
+}
+
+unsigned char CCellule::fnGetStrength()
+{
+    return m_ucStrength;
 }
 
 void CCellule::fnClicked()
