@@ -6,6 +6,7 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton(parent),
     m_iX(x),
     m_iY(y)
 {
+    trace_debug("Construction de Cellule [" << m_iX << "][" << m_iY << "]");
     for(int iI=0; iI < C_NB_VOISINS;iI++)
     {
         m_pCVoisinage[iI]=nullptr;
@@ -30,7 +31,7 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton(parent),
 
 CCellule::~CCellule()
 {
-
+    trace_debug("Destruction de Cellule [" << m_iX << "][" << m_iY << "]");
 }
 
 void CCellule::ActualizeColor()
@@ -114,6 +115,7 @@ unsigned char CCellule::fnGetStrength()
 
 void CCellule::fnClicked()
 {
+    trace_info("Click Cellule [" << m_iX << "][" << m_iY << "]");
     m_ucStrength=100;
     ActualizeColor();
 }

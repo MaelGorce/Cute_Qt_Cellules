@@ -6,7 +6,7 @@
 #include <QMainWindow>
 #include <stdlib.h>
 #include <time.h>
-#include <QDebug>
+#include "traces.h"
 
 #define C_NB_VOISINS 8
 

@@ -1,22 +1,27 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    trace_debug("Construction de MainWindow");
+
+    trace_info("Taille de la fenêtre = " << C_LAR_WD << "x" << C_HAU_WD );
     setFixedSize(C_LAR_WD, C_HAU_WD);
 
 
+    trace_debug("Début de la création des Cellules");
     FORALLCELLS
     (
         m_pCCelluleMap[iI][iJ]=new CCellule(iI,iJ,this);
+        if (m_pCCelluleMap[iI][iJ] == nullptr) trace_error("Erreur à la création de la Cellule ["<< iI << "]["<< iJ << "]");
     )
-
+    trace_debug("Fin de la création des Cellules");
 
     CCellule* pCVoisinage[C_NB_VOISINS];
     int pucVoisCorrX[C_NB_VOISINS] = {-1,0,1,-1,1,-1,0,1};
     int pucVoisCorrY[C_NB_VOISINS] = {-1,-1,-1,0,0,1,1,1};
 
+    trace_debug("Début de l'association du voisinage");
     FORALLCELLS
     (
         for(int iV=0; iV < C_NB_VOISINS;iV++)                                               \
@@ -30,22 +35,34 @@ MainWindow::MainWindow(QWidget *parent) :
             }                                                                               \
         m_pCCelluleMap[iI][iJ]->fnSetVoisinage(pCVoisinage);                                \
     )
+    trace_debug("Fin de l'association du voisinage");
 
-    // Création du Timer et
+    trace_debug("Création des deux timers");
     m_pQTickerCompute   = new QTimer(this);
     m_pQTickerActualize = new QTimer(this);
 
+    trace_debug("Début de la connection des timers avec les Cellules");
     FORALLCELLS
     (
        connect(m_pQTickerCompute  , SIGNAL(timeout()), m_pCCelluleMap[iI][iJ], SLOT(fnCompute()));
        connect(m_pQTickerActualize, SIGNAL(timeout()), m_pCCelluleMap[iI][iJ], SLOT(fnActualize()));
     )
+    trace_debug("Fin de la connection des timers avec les Cellules");
 
+    trace_debug("Lancement du timer Actualize");
     m_pQTickerActualize->start(100);
+    trace_debug("Lancement du timer Compute");
     m_pQTickerCompute->start(100);
+
+    trace_debug("Fin de construction de MainWindow");
 }
 
 MainWindow::~MainWindow()
 {
-    //delete ui;
+    trace_debug("Destruction de MainWindow");
+    FORALLCELLS
+    (
+           delete m_pCCelluleMap[iI][iJ];
+    )
+    trace_debug("Fin de destruction de MainWindow");
 }

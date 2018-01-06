@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "ccellule.h"
+#include "traces.h"
 
 #define C_LAR_WD 800
 #define C_HAU_WD 500

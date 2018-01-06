@@ -30,6 +30,7 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-        ccellule.h
+        ccellule.h \
+    traces.h
 
 FORMS +=
