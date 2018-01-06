@@ -5,14 +5,23 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     trace_debug("Construction de MainWindow");
 
-    trace_info("Taille de la fenêtre = " << C_LAR_WD << "x" << C_HAU_WD );
-    setFixedSize(C_LAR_WD, C_HAU_WD);
+    trace_info("Taille de la fenêtre = " << C_LAR_WD << "x" << C_HAU_CFG + C_HAU_WD );
+    setFixedSize(C_LAR_WD, C_HAU_CFG + C_HAU_WD);
 
+    stConfigBehave stCfgBhv;
+    stCfgBhv.ucGrowthRate               = 20;
+    stCfgBhv.ucRandomization            = 40;
+    stCfgBhv.ucOverPopulateThreshold    = 60;
+    stCfgBhv.ucOverPopulateRate         = 40;
+    stCfgBhv.ucUnderPopulateThreshold   = 20;
+    stCfgBhv.ucUnderPopulateRate        = 20;
+    trace_info("Config initiale : ");
+    stCfgBhv.fnDumpCfgBhv();
 
     trace_debug("Début de la création des Cellules");
     FORALLCELLS
     (
-        m_pCCelluleMap[iI][iJ]=new CCellule(iI,iJ,this);
+        m_pCCelluleMap[iI][iJ]=new CCellule(iI,iJ,&stCfgBhv,this);
         if (m_pCCelluleMap[iI][iJ] == nullptr) trace_error("Erreur à la création de la Cellule ["<< iI << "]["<< iJ << "]");
     )
     trace_debug("Fin de la création des Cellules");

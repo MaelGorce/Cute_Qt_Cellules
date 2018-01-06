@@ -1,6 +1,6 @@
 #include "ccellule.h"
 
-CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton(parent),
+CCellule::CCellule(int x, int y, stConfigBehave* pstCfgBhv, QMainWindow *parent): QPushButton(parent),
     m_ucStrength(0),
     m_ucNextStrength(0),
     m_iX(x),
@@ -13,9 +13,12 @@ CCellule::CCellule(int x, int y, QMainWindow *parent): QPushButton(parent),
     }
     // On Positione la cellule
     this->setGeometry( C_SIZE_CEL * m_iX,
-                       C_SIZE_CEL * m_iY,
+                       C_HAU_CFG + C_SIZE_CEL * m_iY,
                        C_SIZE_CEL,
                        C_SIZE_CEL);
+
+    // Récupération de la configuration initiale
+    m_stCfgBhv = *pstCfgBhv;
 
     // Propriété du bouton
     this->setBackgroundRole(QPalette::Button);
@@ -43,7 +46,7 @@ void CCellule::ActualizeColor()
 void CCellule::fnActualize()
 {
     // Randomize
-    m_ucNextStrength += (unsigned char) rand() % 40 -20 ;
+    m_ucNextStrength += (unsigned char) rand() % m_stCfgBhv.ucRandomization - m_stCfgBhv.ucRandomization /2 ;
     if (m_ucNextStrength > 200 )           m_ucNextStrength=0; // 'négatif' du unsigned char
     if (m_ucNextStrength > C_MAX_STRENGHT) m_ucNextStrength = C_MAX_STRENGHT;
 
@@ -70,40 +73,40 @@ void CCellule::fnCompute()
         }
     }
 
-    if (AroundStrength/C_NB_VOISINS < 20)
+    if (AroundStrength/C_NB_VOISINS < m_stCfgBhv.ucUnderPopulateThreshold)
     {
         // Sous-population envirronnante
-        if (m_ucStrength < 20)
+        if (m_ucStrength < m_stCfgBhv.ucUnderPopulateRate)
         {
             m_ucNextStrength = 0;
         }
         else
         {
-            m_ucNextStrength = m_ucStrength - 20;
+            m_ucNextStrength = m_ucStrength - m_stCfgBhv.ucUnderPopulateRate;
         }
     }
-    else if (AroundStrength/C_NB_VOISINS > 60)
+    else if (AroundStrength/C_NB_VOISINS > m_stCfgBhv.ucOverPopulateThreshold)
     {
         // Sur-population envirronnante
-        if (m_ucStrength < 20)
+        if (m_ucStrength < m_stCfgBhv.ucUnderPopulateRate)
         {
             m_ucNextStrength = 0;
         }
         else
         {
-            m_ucNextStrength = m_ucStrength - 20;
+            m_ucNextStrength = m_ucStrength - m_stCfgBhv.ucUnderPopulateRate;
         }
     }
     else
     {
         // Croissance
-        if (m_ucStrength > 80)
+        if (m_ucStrength > C_MAX_STRENGHT - m_stCfgBhv.ucGrowthRate )
         {
             m_ucNextStrength = C_MAX_STRENGHT;
         }
         else
         {
-            m_ucNextStrength = m_ucStrength + 20;
+            m_ucNextStrength = m_ucStrength + m_stCfgBhv.ucGrowthRate;
         }
     }
 }
