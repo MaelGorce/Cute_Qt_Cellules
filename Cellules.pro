@@ -32,5 +32,4 @@ HEADERS += \
         mainwindow.h \
         ccellule.h
 
-FORMS += \
-        mainwindow.ui
+FORMS +=

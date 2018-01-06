@@ -17,10 +17,6 @@
         }                                                       \
     }                                                           \
 
-namespace Ui {
-class MainWindow;
-}
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -30,6 +26,8 @@ public:
     ~MainWindow();
 
 private:
+
+    // Membres de la classe MainWindow
     CCellule* m_pCCelluleMap[(C_LAR_WD/C_SIZE_CEL)][(C_HAU_WD/C_SIZE_CEL)];
     QTimer* m_pQTickerCompute;
     QTimer* m_pQTickerActualize;
