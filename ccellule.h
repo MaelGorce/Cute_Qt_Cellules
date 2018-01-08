@@ -7,13 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "traces.h"
-
-#define C_NB_VOISINS 8
-
-#define C_HAU_CFG 300
-#define C_SIZE_CEL 10
-
-#define C_MAX_STRENGHT 100
+#include "cconfiguration.h"
 
 using namespace std;
 struct stConfigBehave {
@@ -58,11 +52,12 @@ private:
     // Membres de la classe Cellule
     unsigned char m_ucStrength;
     unsigned char m_ucNextStrength;
+    unsigned int m_ucAroundStrength;
     int m_iX;
     int m_iY;
     CCellule* m_pCVoisinage[C_NB_VOISINS];
     QPalette m_qPalette;
-    struct stConfigBehave m_stCfgBhv;
+    struct stConfigBehave *m_pstCfgBhv;
 };
 
 #endif // CCELLULE_H

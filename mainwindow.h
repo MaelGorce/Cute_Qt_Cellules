@@ -5,9 +5,7 @@
 #include <QTimer>
 #include "ccellule.h"
 #include "traces.h"
-
-#define C_LAR_WD 800
-#define C_HAU_WD 500
+#include "cconfiguration.h"
 
 #define FORALLCELLS(X) \
     for (int iI=0; iI < C_LAR_WD/C_SIZE_CEL; iI++)              \
@@ -16,7 +14,8 @@
         {                                                       \
             X                                                   \
         }                                                       \
-    }                                                           \
+    }
+
 
 class MainWindow : public QMainWindow
 {
@@ -25,6 +24,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    stConfigBehave m_stCfgBhv;
 
 private:
 
@@ -32,6 +32,7 @@ private:
     CCellule* m_pCCelluleMap[(C_LAR_WD/C_SIZE_CEL)][(C_HAU_WD/C_SIZE_CEL)];
     QTimer* m_pQTickerCompute;
     QTimer* m_pQTickerActualize;
+    CConfiguration* m_poCfgTab[C_NB_CFG];
 };
 
 #endif // MAINWINDOW_H

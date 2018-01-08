@@ -8,23 +8,20 @@ MainWindow::MainWindow(QWidget *parent) :
     trace_info("Taille de la fenêtre = " << C_LAR_WD << "x" << C_HAU_CFG + C_HAU_WD );
     setFixedSize(C_LAR_WD, C_HAU_CFG + C_HAU_WD);
 
-    stConfigBehave stCfgBhv;
-    stCfgBhv.ucGrowthRate               = 20;
-    stCfgBhv.ucRandomization            = 40;
-    stCfgBhv.ucOverPopulateThreshold    = 60;
-    stCfgBhv.ucOverPopulateRate         = 40;
-    stCfgBhv.ucUnderPopulateThreshold   = 20;
-    stCfgBhv.ucUnderPopulateRate        = 20;
-    trace_info("Config initiale : ");
-    stCfgBhv.fnDumpCfgBhv();
+    m_stCfgBhv.ucGrowthRate               = 20;
+    m_stCfgBhv.ucRandomization            = 40;
+    m_stCfgBhv.ucOverPopulateThreshold    = 60;
+    m_stCfgBhv.ucOverPopulateRate         = 40;
+    m_stCfgBhv.ucUnderPopulateThreshold   = 20;
+    m_stCfgBhv.ucUnderPopulateRate        = 20;
 
     trace_debug("Début de la création des Cellules");
     FORALLCELLS
     (
-        m_pCCelluleMap[iI][iJ]=new CCellule(iI,iJ,&stCfgBhv,this);
+        m_pCCelluleMap[iI][iJ]=new CCellule(iI,iJ,&m_stCfgBhv,this);
         if (m_pCCelluleMap[iI][iJ] == nullptr) trace_error("Erreur à la création de la Cellule ["<< iI << "]["<< iJ << "]");
     )
-    trace_debug("Fin de la création des Cellules");
+    trace_info("Fin de la création des " << C_LAR_WD/C_SIZE_CEL * C_HAU_WD/C_SIZE_CEL <<" Cellules");
 
     CCellule* pCVoisinage[C_NB_VOISINS];
     int pucVoisCorrX[C_NB_VOISINS] = {-1,0,1,-1,1,-1,0,1};
@@ -57,6 +54,14 @@ MainWindow::MainWindow(QWidget *parent) :
        connect(m_pQTickerActualize, SIGNAL(timeout()), m_pCCelluleMap[iI][iJ], SLOT(fnActualize()));
     )
     trace_debug("Fin de la connection des timers avec les Cellules");
+
+
+    m_poCfgTab[0] = new CConfiguration(&m_stCfgBhv.ucRandomization,"Randomization",0,this);
+    m_poCfgTab[1] = new CConfiguration(&m_stCfgBhv.ucGrowthRate,"GrowthRate",1,this);
+    m_poCfgTab[2] = new CConfiguration(&m_stCfgBhv.ucOverPopulateThreshold,"OverPopulateThd",2,this);
+    m_poCfgTab[3] = new CConfiguration(&m_stCfgBhv.ucOverPopulateRate,"OverPopulateRate",3,this);
+    m_poCfgTab[4] = new CConfiguration(&m_stCfgBhv.ucUnderPopulateThreshold,"UnderPopulateThd",4,this);
+    m_poCfgTab[5] = new CConfiguration(&m_stCfgBhv.ucUnderPopulateRate,"UnderPopulateRate",5,this);
 
     trace_debug("Lancement du timer Actualize");
     m_pQTickerActualize->start(100);

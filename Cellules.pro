@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        ccellule.cpp
+        ccellule.cpp \
+    cconfiguration.cpp
 
 HEADERS += \
         mainwindow.h \
         ccellule.h \
-    traces.h
+    traces.h \
+    cconfiguration.h
 
 FORMS +=
