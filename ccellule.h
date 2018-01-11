@@ -38,6 +38,7 @@ public:
 
     void fnSetVoisinage(CCellule**);
     unsigned char fnGetStrength();
+    void fnSetStrength(unsigned char ucStrength);
 
 public slots:
     void fnCompute();
