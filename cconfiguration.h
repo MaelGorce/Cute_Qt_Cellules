@@ -15,7 +15,8 @@
 
 // Défine pour MainWindow :
 #define C_LAR_WD 800
-#define C_HAU_WD 700
+#define C_HAU_WD 500
+#define C_HAU_BAR 25
 #define C_HAU_CFG 200
 #define C_NB_CFG 6
 
@@ -24,7 +25,7 @@ class CConfiguration : public QObject
     Q_OBJECT
 public:
     explicit CConfiguration(unsigned char *pucConfig, QString strName, unsigned char ucPosition, QMainWindow *parent = nullptr);
-
+    void fnActualizeSlider();
 signals:
 
 public slots:

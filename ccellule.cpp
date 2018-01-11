@@ -14,7 +14,7 @@ CCellule::CCellule(int x, int y, stConfigBehave* pstCfgBhv, QMainWindow *parent)
     }
     // On Positione la cellule
     this->setGeometry( C_SIZE_CEL * m_iX,
-                       C_HAU_CFG + C_SIZE_CEL * m_iY,
+                       C_HAU_BAR + C_HAU_CFG + C_SIZE_CEL * m_iY,
                        C_SIZE_CEL,
                        C_SIZE_CEL);
 
@@ -61,6 +61,11 @@ void CCellule::fnSetVoisinage(CCellule** pCVoisinage)
     {
         m_pCVoisinage[iI]=pCVoisinage[iI];
     }
+}
+
+void CCellule::fnSetStrength(unsigned char ucStrength)
+{
+    m_ucStrength=ucStrength;
 }
 
 void CCellule::fnCompute()

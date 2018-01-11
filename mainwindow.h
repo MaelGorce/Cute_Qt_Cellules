@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QMenuBar>
+#include <QAction>
 #include "ccellule.h"
 #include "traces.h"
 #include "cconfiguration.h"
@@ -24,10 +26,25 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    stConfigBehave m_stCfgBhv;
+
+private slots:
+    void SfnSave();
+    void SfnLoad();
+    void SfnReset();
+    void SfnHelp();
 
 private:
+    void fnCreatActions();
+    void fnCreateMenus();
 
+    stConfigBehave m_stCfgBhv;
+    stConfigBehave m_stCfgBhvInit;
+    QMenu * m_pQMenuFile;
+    QMenu * m_pQMenuHelp;
+    QAction * m_pQActionSave;
+    QAction * m_pQActionLoad;
+    QAction * m_pQActionReset;
+    QAction * m_pQActionHelp;
     // Membres de la classe MainWindow
     CCellule* m_pCCelluleMap[(C_LAR_WD/C_SIZE_CEL)][(C_HAU_WD/C_SIZE_CEL)];
     QTimer* m_pQTickerCompute;

@@ -6,14 +6,19 @@ MainWindow::MainWindow(QWidget *parent) :
     trace_debug("Construction de MainWindow");
 
     trace_info("Taille de la fenêtre = " << C_LAR_WD << "x" << C_HAU_CFG + C_HAU_WD );
-    setFixedSize(C_LAR_WD, C_HAU_CFG + C_HAU_WD);
+    setFixedSize(C_LAR_WD, C_HAU_BAR + C_HAU_CFG + C_HAU_WD);
 
-    m_stCfgBhv.ucGrowthRate               = 20;
-    m_stCfgBhv.ucRandomization            = 40;
-    m_stCfgBhv.ucOverPopulateThreshold    = 60;
-    m_stCfgBhv.ucOverPopulateRate         = 40;
-    m_stCfgBhv.ucUnderPopulateThreshold   = 20;
-    m_stCfgBhv.ucUnderPopulateRate        = 20;
+    fnCreatActions();
+    fnCreateMenus();
+
+    m_stCfgBhvInit.ucGrowthRate               = 20;
+    m_stCfgBhvInit.ucRandomization            = 0;
+    m_stCfgBhvInit.ucOverPopulateThreshold    = 60;
+    m_stCfgBhvInit.ucOverPopulateRate         = 40;
+    m_stCfgBhvInit.ucUnderPopulateThreshold   = 20;
+    m_stCfgBhvInit.ucUnderPopulateRate        = 20;
+
+    m_stCfgBhv = m_stCfgBhvInit;
 
     trace_debug("Début de la création des Cellules");
     FORALLCELLS
@@ -69,6 +74,78 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pQTickerCompute->start(100);
 
     trace_debug("Fin de construction de MainWindow");
+}
+
+void MainWindow::fnCreatActions()
+{
+    trace_debug("Création de l'action Save");
+    m_pQActionSave = new QAction(tr("&Save"), this);
+    m_pQActionSave->setShortcuts(QKeySequence::Save);
+    m_pQActionSave->setStatusTip(tr("Save current Configuration"));
+    connect(m_pQActionSave,&QAction::triggered, this,&MainWindow::SfnSave);
+
+    trace_debug("Création de l'action Load");
+    m_pQActionLoad = new QAction(tr("&Load"), this);
+    m_pQActionLoad->setShortcuts(QKeySequence::Open);
+    m_pQActionLoad->setStatusTip(tr("Load a saved Configuration"));
+    connect(m_pQActionLoad,&QAction::triggered, this,&MainWindow::SfnLoad);
+
+    trace_debug("Création de l'action Reset");
+    m_pQActionReset = new QAction(tr("&Reset"), this);
+    m_pQActionReset->setShortcuts(QKeySequence::Refresh);
+    m_pQActionReset->setStatusTip(tr("Reset to default Configuration"));
+    connect(m_pQActionReset,&QAction::triggered, this,&MainWindow::SfnReset);
+
+    trace_debug("Création de l'action Help");
+    m_pQActionHelp = new QAction(tr("&Help"), this);
+    m_pQActionHelp->setShortcuts(QKeySequence::HelpContents);
+    m_pQActionHelp->setStatusTip(tr("What is this ?"));
+    connect(m_pQActionHelp,&QAction::triggered, this,&MainWindow::SfnHelp);
+}
+
+void MainWindow::fnCreateMenus()
+{
+    trace_debug("Création du Menu");
+
+    trace_debug("Création du menu File");
+    m_pQMenuFile = menuBar()->addMenu(tr("&File"));
+    m_pQMenuFile->addAction(m_pQActionLoad);
+    m_pQMenuFile->addAction(m_pQActionSave);
+    m_pQMenuFile->addAction(m_pQActionReset);
+
+    trace_debug("Création du menu Help");
+    m_pQMenuHelp = menuBar()->addMenu(tr("&Help"));
+    m_pQMenuHelp->addAction(m_pQActionHelp);
+}
+
+
+void MainWindow::SfnSave()
+{
+    trace_info("Fonction Save");
+}
+
+void MainWindow::SfnLoad()
+{
+    trace_info("Fonction Load");
+}
+
+void MainWindow::SfnReset()
+{
+    trace_info("Fonction Reset");
+    FORALLCELLS
+    (
+        m_pCCelluleMap[iI][iJ]->fnSetStrength(0);
+    )
+    m_stCfgBhv = m_stCfgBhvInit;
+    for(int iQ=0;iQ<C_NB_CFG;iQ++)
+    {
+        m_poCfgTab[iQ]->fnActualizeSlider();
+    }
+}
+
+void MainWindow::SfnHelp()
+{
+    trace_info("Fonction Help");
 }
 
 MainWindow::~MainWindow()
